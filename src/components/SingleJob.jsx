@@ -1,11 +1,19 @@
 import React from "react";
-import { useParams, Link, useLoaderData } from "react-router-dom";
+import { useParams, useNavigate, Link, useLoaderData } from "react-router-dom";
 import { FaArrowLeft } from "react-icons/fa";
 
-const SingleJob = () => {
+const SingleJob = ({ deleteCurrentJob }) => {
+  const navigate = useNavigate();
   const job = useLoaderData();
-  // let { id } = useParams();
-
+  let { id } = useParams();
+  const deleteJobFunction = () => {
+    const confirm = window.confirm(
+      "Are you sure you want to delete this Job Liting?"
+    );
+    if (!confirm) return;
+    deleteCurrentJob(id);
+    navigate("/jobs");
+  };
   // Check if job is fetched successfully
   return (
     <>
@@ -80,7 +88,10 @@ const SingleJob = () => {
                 >
                   Edit Job
                 </Link>
-                <button className="bg-red-500 hover:bg-red-600 text-white font-bold py-2 px-4 rounded-full w-full focus:outline-none focus:shadow-outline mt-4 block">
+                <button
+                  onClick={deleteJobFunction}
+                  className="bg-red-500 hover:bg-red-600 text-white font-bold py-2 px-4 rounded-full w-full focus:outline-none focus:shadow-outline mt-4 block"
+                >
                   Delete Job
                 </button>
               </div>
